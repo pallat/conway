@@ -26,10 +26,10 @@ func main() {
 	s := New(80, 30)
 	s.draw()
 
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 1000; i++ {
 		next(s.pixels)
-		s.draw()
 		time.Sleep(time.Second)
+		s.draw()
 	}
 }
 
@@ -125,7 +125,41 @@ func next(cells []*cell) {
 	current := make([]*cell, len(cells))
 	for i := range cells {
 		current[i] = &cell{}
-		*current[i] = *cells[i]
+		current[i].x = cells[i].x
+		current[i].y = cells[i].y
+		current[i].alive = cells[i].alive
+		current[i].topleft = &cell{}
+		if cells[i].topleft != nil {
+			*current[i].topleft = *cells[i].topleft
+		}
+		current[i].top = &cell{}
+		if cells[i].top != nil {
+			*current[i].top = *cells[i].top
+		}
+		current[i].topright = &cell{}
+		if cells[i].topright != nil {
+			*current[i].topright = *cells[i].topright
+		}
+		current[i].left = &cell{}
+		if cells[i].left != nil {
+			*current[i].left = *cells[i].left
+		}
+		current[i].right = &cell{}
+		if cells[i].right != nil {
+			*current[i].right = *cells[i].right
+		}
+		current[i].bottomleft = &cell{}
+		if cells[i].bottomleft != nil {
+			*current[i].bottomleft = *cells[i].bottomleft
+		}
+		current[i].bottom = &cell{}
+		if cells[i].bottom != nil {
+			*current[i].bottom = *cells[i].bottom
+		}
+		current[i].bottomright = &cell{}
+		if cells[i].bottomright != nil {
+			*current[i].bottomright = *cells[i].bottomright
+		}
 	}
 
 	for i, v := range current {
@@ -133,53 +167,61 @@ func next(cells []*cell) {
 
 		if v.topleft != nil {
 			if v.topleft.alive {
+				// fmt.Println("topleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.top != nil {
 			if v.top.alive {
+				// fmt.Println("top alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.topright != nil {
 			if v.topright.alive {
+				// fmt.Println("topright alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.left != nil {
 			if v.left.alive {
+				// fmt.Println("left alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.right != nil {
 			if v.right.alive {
+				// fmt.Println("right alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomleft != nil {
 			if v.bottomleft.alive {
+				// fmt.Println("bottomleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottom != nil {
 			if v.bottom.alive {
+				// fmt.Println("bottom alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomright != nil {
 			if v.bottomright.alive {
+				// fmt.Println("bottomright alive of:", i)
 				neighbours++
 			}
 		}
 
-		if cells[i].alive {
+		if current[i].alive {
 			if neighbours != 2 && neighbours != 3 {
 				cells[i].alive = false
 			}

@@ -33,18 +33,27 @@ func main() {
 	}
 }
 
-func New(dx, dy int) space {
-	rand.Seed(time.Now().UnixNano())
-
-	total := dx * dy
-	pixels := make([]*cell, total, total)
-
+func (pixels conways) born() {
 	for i := range pixels {
-		pixels[i] = &cell{x: i % dx, y: i / dx}
 		if rand.Intn(20) == 2 {
 			pixels[i].alive = true
 		}
 	}
+}
+
+func initial(dx, dy int) conways {
+	total := dx * dy
+	pixels := make([]*cell, total, total)
+	for i := range pixels {
+		pixels[i] = &cell{x: i % dx, y: i / dx}
+	}
+	return pixels
+}
+
+type conways []*cell
+
+func (pixels conways) connect(dx, dy int) {
+	total := dx * dy
 
 	for i := range pixels {
 		topleft := i - dx - 1
@@ -88,6 +97,14 @@ func New(dx, dy int) space {
 		}
 
 	}
+}
+
+func New(dx, dy int) space {
+	rand.Seed(time.Now().UnixNano())
+
+	pixels := initial(dx, dy)
+	pixels.born()
+	pixels.connect(dx, dy)
 
 	return space{
 		dx:     dx,

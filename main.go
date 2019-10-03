@@ -27,7 +27,7 @@ func main() {
 	s.draw()
 
 	for i := 0; i < 1000; i++ {
-		next(s.pixels)
+		s.pixels.next()
 		time.Sleep(time.Second)
 		s.draw()
 	}
@@ -116,7 +116,7 @@ func New(dx, dy int) space {
 type space struct {
 	dx     int
 	dy     int
-	pixels []*cell
+	pixels conways
 }
 
 func (s *space) draw() {
@@ -138,7 +138,7 @@ func (s *space) draw() {
 	}
 }
 
-func next(cells []*cell) {
+func (cells conways) next() {
 	current := make([]*cell, len(cells))
 	for i := range cells {
 		current[i] = &cell{}

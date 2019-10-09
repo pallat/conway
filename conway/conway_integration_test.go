@@ -31,7 +31,7 @@ func Draw(cells conway.Cells, d conway.Dimension) {
 	for y := 0; y < d.Length; y++ {
 		for x := 0; x < d.Width; x++ {
 			if cells[i].Alive {
-				fmt.Print("0")
+				fmt.Print("✸")
 			} else {
 				fmt.Print(" ")
 			}

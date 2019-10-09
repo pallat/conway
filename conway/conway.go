@@ -33,7 +33,7 @@ type cell struct {
 
 func (pixels Cells) born() {
 	for i := range pixels {
-		if rand.Intn(20) == 2 {
+		if rand.Intn(10) == 2 {
 			pixels[i].Alive = true
 		}
 	}
@@ -120,25 +120,6 @@ type Space struct {
 func (s *Space) Cells() Cells {
 	return s.Pixels
 }
-
-// func (s *Space) Draw() {
-// 	cmd := exec.Command("clear")
-// 	cmd.Stdout = os.Stdout
-// 	cmd.Run()
-
-// 	i := 0
-// 	for y := 0; y < s.dy; y++ {
-// 		for x := 0; x < s.dx; x++ {
-// 			if s.Pixels[i].Alive {
-// 				fmt.Print("0")
-// 			} else {
-// 				fmt.Print(" ")
-// 			}
-// 			i++
-// 		}
-// 		fmt.Println()
-// 	}
-// }
 
 func (cells Cells) Next() {
 	current := make([]*cell, len(cells))

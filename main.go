@@ -46,7 +46,7 @@ func run() {
 
 		win.Update()
 
-		time.Sleep(time.Second)
+		time.Sleep(time.Millisecond * 300)
 		for i := range buffer {
 			buffer[i].Clear()
 		}

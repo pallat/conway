@@ -1,10 +1,7 @@
 package conway
 
 import (
-	"fmt"
 	"math/rand"
-	"os"
-	"os/exec"
 	"time"
 )
 
@@ -21,9 +18,9 @@ func NewDimension(w, l int) Dimension {
 }
 
 type cell struct {
+	Alive       bool
 	x           int
 	y           int
-	alive       bool
 	topleft     *cell
 	top         *cell
 	topright    *cell
@@ -34,15 +31,15 @@ type cell struct {
 	bottomright *cell
 }
 
-func (pixels conways) born() {
+func (pixels Cells) born() {
 	for i := range pixels {
 		if rand.Intn(20) == 2 {
-			pixels[i].alive = true
+			pixels[i].Alive = true
 		}
 	}
 }
 
-func initial(dx, dy int) conways {
+func initial(dx, dy int) Cells {
 	total := dx * dy
 	pixels := make([]*cell, total, total)
 	for i := range pixels {
@@ -51,9 +48,9 @@ func initial(dx, dy int) conways {
 	return pixels
 }
 
-type conways []*cell
+type Cells []*cell
 
-func (pixels conways) connect(dx, dy int) {
+func (pixels Cells) connect(dx, dy int) {
 	total := dx * dy
 
 	for i := range pixels {
@@ -100,52 +97,56 @@ func (pixels conways) connect(dx, dy int) {
 	}
 }
 
-func New(d Dimension) space {
+func New(d Dimension) Space {
 	rand.Seed(time.Now().UnixNano())
 
 	pixels := initial(d.Width, d.Length)
 	pixels.born()
 	pixels.connect(d.Width, d.Length)
 
-	return space{
+	return Space{
 		dx:     d.Width,
 		dy:     d.Length,
 		Pixels: pixels,
 	}
 }
 
-type space struct {
+type Space struct {
 	dx     int
 	dy     int
-	Pixels conways
+	Pixels Cells
 }
 
-func (s *space) Draw() {
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-
-	i := 0
-	for y := 0; y < s.dy; y++ {
-		for x := 0; x < s.dx; x++ {
-			if s.Pixels[i].alive {
-				fmt.Print("0")
-			} else {
-				fmt.Print(" ")
-			}
-			i++
-		}
-		fmt.Println()
-	}
+func (s *Space) Cells() Cells {
+	return s.Pixels
 }
 
-func (cells conways) Next() {
+// func (s *Space) Draw() {
+// 	cmd := exec.Command("clear")
+// 	cmd.Stdout = os.Stdout
+// 	cmd.Run()
+
+// 	i := 0
+// 	for y := 0; y < s.dy; y++ {
+// 		for x := 0; x < s.dx; x++ {
+// 			if s.Pixels[i].Alive {
+// 				fmt.Print("0")
+// 			} else {
+// 				fmt.Print(" ")
+// 			}
+// 			i++
+// 		}
+// 		fmt.Println()
+// 	}
+// }
+
+func (cells Cells) Next() {
 	current := make([]*cell, len(cells))
 	for i := range cells {
 		current[i] = &cell{}
 		current[i].x = cells[i].x
 		current[i].y = cells[i].y
-		current[i].alive = cells[i].alive
+		current[i].Alive = cells[i].Alive
 		current[i].topleft = &cell{}
 		if cells[i].topleft != nil {
 			*current[i].topleft = *cells[i].topleft
@@ -184,68 +185,68 @@ func (cells conways) Next() {
 		neighbours := 0
 
 		if v.topleft != nil {
-			if v.topleft.alive {
+			if v.topleft.Alive {
 				// fmt.Println("topleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.top != nil {
-			if v.top.alive {
+			if v.top.Alive {
 				// fmt.Println("top alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.topright != nil {
-			if v.topright.alive {
+			if v.topright.Alive {
 				// fmt.Println("topright alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.left != nil {
-			if v.left.alive {
+			if v.left.Alive {
 				// fmt.Println("left alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.right != nil {
-			if v.right.alive {
+			if v.right.Alive {
 				// fmt.Println("right alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomleft != nil {
-			if v.bottomleft.alive {
+			if v.bottomleft.Alive {
 				// fmt.Println("bottomleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottom != nil {
-			if v.bottom.alive {
+			if v.bottom.Alive {
 				// fmt.Println("bottom alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomright != nil {
-			if v.bottomright.alive {
+			if v.bottomright.Alive {
 				// fmt.Println("bottomright alive of:", i)
 				neighbours++
 			}
 		}
 
-		if current[i].alive {
+		if current[i].Alive {
 			if neighbours != 2 && neighbours != 3 {
-				cells[i].alive = false
+				cells[i].Alive = false
 			}
 		} else {
 			if neighbours == 3 {
-				cells[i].alive = true
+				cells[i].Alive = true
 			}
 		}
 	}

@@ -8,6 +8,18 @@ import (
 	"time"
 )
 
+type Dimension struct {
+	Width  int
+	Length int
+}
+
+func NewDimension(w, l int) Dimension {
+	return Dimension{
+		Width:  w,
+		Length: l,
+	}
+}
+
 type cell struct {
 	x           int
 	y           int
@@ -88,16 +100,16 @@ func (pixels conways) connect(dx, dy int) {
 	}
 }
 
-func New(dx, dy int) space {
+func New(d Dimension) space {
 	rand.Seed(time.Now().UnixNano())
 
-	pixels := initial(dx, dy)
+	pixels := initial(d.Width, d.Length)
 	pixels.born()
-	pixels.connect(dx, dy)
+	pixels.connect(d.Width, d.Length)
 
 	return space{
-		dx:     dx,
-		dy:     dy,
+		dx:     d.Width,
+		dy:     d.Length,
 		Pixels: pixels,
 	}
 }

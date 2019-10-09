@@ -8,7 +8,8 @@ import (
 )
 
 func TestRun(t *testing.T) {
-	s := conway.New(80, 30)
+	d := conway.NewDimension(80, 30)
+	s := conway.New(d)
 	s.Draw()
 
 	for i := 0; i < 1000; i++ {

@@ -1,3 +1,5 @@
+// +build integration
+
 package conway_test
 
 import (

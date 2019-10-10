@@ -167,56 +167,48 @@ func (cells Cells) Next() {
 
 		if v.topleft != nil {
 			if v.topleft.Alive {
-				// fmt.Println("topleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.top != nil {
 			if v.top.Alive {
-				// fmt.Println("top alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.topright != nil {
 			if v.topright.Alive {
-				// fmt.Println("topright alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.left != nil {
 			if v.left.Alive {
-				// fmt.Println("left alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.right != nil {
 			if v.right.Alive {
-				// fmt.Println("right alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomleft != nil {
 			if v.bottomleft.Alive {
-				// fmt.Println("bottomleft alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottom != nil {
 			if v.bottom.Alive {
-				// fmt.Println("bottom alive of:", i)
 				neighbours++
 			}
 		}
 
 		if v.bottomright != nil {
 			if v.bottomright.Alive {
-				// fmt.Println("bottomright alive of:", i)
 				neighbours++
 			}
 		}

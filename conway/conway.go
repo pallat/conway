@@ -55,12 +55,12 @@ func (pixels Cells) connect(dx, dy int) {
 
 	for i := range pixels {
 		topleft := i - dx - 1
-		if topleft > 0 {
+		if topleft >= 0 {
 			pixels[i].topleft = pixels[topleft]
 		}
 
 		top := i - dx
-		if top > 0 {
+		if top >= 0 {
 			pixels[i].top = pixels[top]
 		}
 
@@ -70,7 +70,7 @@ func (pixels Cells) connect(dx, dy int) {
 		}
 
 		left := i - 1
-		if left > 0 {
+		if left >= 0 {
 			pixels[i].left = pixels[left]
 		}
 
